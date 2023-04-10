@@ -36,27 +36,27 @@ COPY ./docker/.distignore /root/.config/quickdist/
 # END OF THE base
 
 
-FROM base as lw-worker
+# FROM base as lw-worker
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV DISPLAY=host.docker.internal:0
+# ENV DEBIAN_FRONTEND=noninteractive
+# ENV DISPLAY=host.docker.internal:0
 
-RUN apt-get update && apt-get install -y libgtk2.0-0 curl
+# RUN apt-get update && apt-get install -y libgtk2.0-0 curl
 
-COPY dist-lw80 /lispworks
+# COPY dist-lw80 /lispworks
 
-RUN cd /lispworks && \
-    touch "/tmp/."`/bin/date '+%d%m%y'`"lispworks"`id -u` && \
-    sh lwl-install.sh && \
-    cd /usr/local/lib64/LispWorks && \
-    ln -s /usr/local/lib64/LispWorks/lispworks-8-0-0-amd64-linux /usr/local/bin/lispworks
+# RUN cd /lispworks && \
+#     touch "/tmp/."`/bin/date '+%d%m%y'`"lispworks"`id -u` && \
+#     sh lwl-install.sh && \
+#     cd /usr/local/lib64/LispWorks && \
+#     ln -s /usr/local/lib64/LispWorks/lispworks-8-0-0-amd64-linux /usr/local/bin/lispworks
 
-RUN curl https://beta.quicklisp.org/quicklisp.lisp > /quicklisp.lisp
+# RUN curl https://beta.quicklisp.org/quicklisp.lisp > /quicklisp.lisp
 
-RUN docker/lw-build.sh /app/lw-build.lisp /app/lw/license
+# RUN docker/lw-build.sh /app/lw-build.lisp /app/lw/license
 
-COPY ./docker/s6-lw-worker /etc/s6
-ENTRYPOINT ["s6-svscan", "/etc/s6"]
+# COPY ./docker/s6-lw-worker /etc/s6
+# ENTRYPOINT ["s6-svscan", "/etc/s6"]
 
 # END OF THE lw-worker
 
@@ -89,7 +89,7 @@ ENTRYPOINT ["s6-svscan", "/etc/s6"]
 
 # Next stage is for development only
 FROM base as dev
-RUN ros install 40ants/gen-deps-system
+RUN ros install bigos/gen-deps-system
 ENTRYPOINT ["/app/docker/dev-entrypoint.sh"]
 
 
