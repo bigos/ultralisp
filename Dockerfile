@@ -89,7 +89,7 @@ ENTRYPOINT ["s6-svscan", "/etc/s6"]
 
 # Next stage is for development only
 FROM base as dev
-RUN ros install bigos/gen-deps-system
+RUN ros install 40ants/gen-deps-system
 ENTRYPOINT ["/app/docker/dev-entrypoint.sh"]
 
 
